@@ -20,7 +20,8 @@ def start(message):
     else:
         bot.send_message(message.from_user.id, 'Войдите в систему');
 # print("ok")
-def mq1(message, owm):
+def mq1(message):
+    global owm
     observation = owm.weather_at_place('Заинск')
     weather = observation.get_weather()
     status = weather.get_detailed_status()
