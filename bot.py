@@ -1,6 +1,7 @@
 import telebot
 import time
 import paho.mqtt.client as mqtt
+import pyowm
 
 bot = telebot.TeleBot('976834670:AAEIr2cuM9pbYwj_yceKmy8-TtBUxRADwNQ')
 keyboard1 = telebot.types.ReplyKeyboardMarkup(True, True)
