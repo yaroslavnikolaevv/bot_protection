@@ -23,12 +23,12 @@ def start(message):
 # print("ok")
 def mq1(message):
     global owm
-    observation = owm.weather_at_place('Заинск')
+    observation = owm.weather_at_place('Казань')
     weather = observation.get_weather()
     status = weather.get_detailed_status()
     temp = weather.get_temperature('celsius')['temp']
     wind = weather.get_wind()['speed']
-    weathercity = message.text[0].upper() + message.text.lower()[1:]
+    weathercity =  'Казань'
     bot.send_message(message.chat.id, 'Погода в городе установки охраны (с встроенного датчика GPS) : {0} \nТемпература : {1}°C\nПогодные условия : {2}\nСкорость ветра : {3} м/с'.format(weathercity, temp, status, wind))
 
     def on_connect(client,userdata,flags,rc):
