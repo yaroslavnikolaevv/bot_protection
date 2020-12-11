@@ -1,12 +1,19 @@
 import telebot
 import time
 import paho.mqtt.client as mqtt
-import pyowm
 
-bot = telebot.TeleBot('976834670:AAEIr2cuM9pbYwj_yceKmy8-TtBUxRADwNQ')
+bot = telebot.TeleBot('1309028910:AAFB3yozhS8dEHz_gQvd0U4VLPSpjEqbghw')
 keyboard1 = telebot.types.ReplyKeyboardMarkup(True, True)
-keyboard1.row('ок')
-
+keyboard1.row('информация')
+keyboard1.row('включить','выключить')
+def on_connectt(client,userdata,flags,rc):
+	print('Connected with code'+str(rc))
+	    #Sub
+	client.subscribe("Relay/#")
+    client.subscribe("Informing/#")
+def on_messagee(client,userdata,msg):
+	print( str(msg.payload) )
+	print('ok')
 
 
 @bot.message_handler(commands=['start'])
@@ -42,4 +49,51 @@ def mq1(message):
 
     client.loop_stop()
     client.disconnect()
+@bot.message_handler(content_types=['text'])
+def text_analyze(message):
+    if "включить" in message.text.lower():
+        client=mqtt.Client()
+        run=1
+        client.on_connect=on_connectt
+        client.on_message=on_messagee
+        client.connect("m16.cloudmqtt.com",11729,60)
+        client.username_pw_set("tizzoqtl", "sqCYE8vpFV1P")
+        client.loop_start()
+        while run<3:
+            client.publish("Relay/",'1')
+            time.sleep(1.2)
+            run+=1
+            print(run)
+        client.loop_stop()
+        client.disconnect()
+    elif 'выключить' in message.text.lower():
+        client=mqtt.Client()
+        run=1
+        client.on_connect=on_connectt
+        client.on_message=on_messagee
+        client.connect("m16.cloudmqtt.com",11729,60)
+        client.username_pw_set("tizzoqtl", "sqCYE8vpFV1P")
+        client.loop_start()
+        while run<3:
+            client.publish("Relay/",'0')
+            time.sleep(1.2)
+            run+=1
+            print(run)
+        client.loop_stop()
+        client.disconnect()
+    elif 'информация' in message.text.lower():
+        client=mqtt.Client()
+        run=1
+        client.on_connect=on_connectt
+        client.on_message=on_messagee
+        client.connect("m16.cloudmqtt.com",11729,60)
+        client.username_pw_set("tizzoqtl", "sqCYE8vpFV1P")
+        client.loop_start()
+        while run<3:
+            client.publish("Informing/",'1')
+            time.sleep(1.2)
+            run+=1
+            print(run)
+        client.loop_stop()
+        client.disconnect()
 bot.polling()
